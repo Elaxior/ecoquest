@@ -1,16 +1,17 @@
-js/config/gemini-config.js
-js/config/firebase-config.js
-
 # API Keys and sensitive config
 .env
 .env.local
+
+# Remove these lines - we want to track the files, just not the secrets
+# js/config/gemini-config.js 
+# js/config/firebase-config.js
 
 # Node modules (if any)
 node_modules/
 npm-debug.log*
 
 # IDE files
-.vscode/settings.json
+.vscode/
 .idea/
 
 # OS generated files

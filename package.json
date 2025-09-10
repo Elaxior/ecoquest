@@ -1,5 +1,13 @@
 {
   "devDependencies": {
     "tailwindcss": "^4.1.13"
-  }
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2"
+  },
+  "scripts": {
+  "build": "node create-config.js"
 }
+}
+
+
