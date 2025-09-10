@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - EcoQuest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#22c55e',
+                        'primary-dark': '#16a34a',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex justify-between items-center h-16">
+                <a href="dashboard.html" class="text-xl font-bold text-primary flex items-center">
+                    <span class="text-2xl mr-2">🌱</span>
+                    EcoQuest
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <ul class="hidden md:flex space-x-8 items-center">
+                    <li><a href="dashboard.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Dashboard</a></li>
+                    <li><a href="quests.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Quests</a></li>
+                    <li><a href="leaderboard.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Leaderboard</a></li>
+                    <li><a href="profile.html" class="text-gray-900 font-medium">Profile</a></li>
+                    <li><button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all font-medium">Logout</button></li>
+                </ul>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden text-gray-700 p-2" id="mobileMenuBtn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="dashboard.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Dashboard</a>
+                    <a href="quests.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Quests</a>
+                    <a href="leaderboard.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Leaderboard</a>
+                    <a href="profile.html" class="block px-3 py-2 text-gray-900 font-medium">Profile</a>
+                    <button id="logoutBtnMobile" class="block w-full text-left px-3 py-2 bg-red-500 text-white font-medium rounded-lg mx-3 mb-3 hover:bg-red-600 transition-all">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <div class="pt-16 min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Profile Header -->
+            <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 mb-8 text-white">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-4xl">
+                        🌱
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h1 id="profileName" class="text-3xl font-bold mb-2">Loading...</h1>
+                        <p id="profileInfo" class="text-lg opacity-90 mb-4">Environmental Warrior</p>
+                        <div class="flex items-center justify-center md:justify-start gap-4">
+                            <div id="profileLevel" class="bg-white bg-opacity-20 px-4 py-2 rounded-full font-semibold">
+                                Level 1
+                            </div>
+                            <div id="profileXP" class="text-sm opacity-90">
+                                0 XP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tabs -->
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div class="border-b border-gray-200">
+                    <nav class="flex space-x-8" id="profileTabs">
+                        <button class="profile-tab active px-6 py-4 text-sm font-medium" data-tab="personal">
+                            Personal Info
+                        </button>
+                        <button class="profile-tab px-6 py-4 text-sm font-medium" data-tab="achievements">
+                            Achievements
+                        </button>
+                        <button class="profile-tab px-6 py-4 text-sm font-medium" data-tab="statistics">
+                            Statistics
+                        </button>
+                        <button class="profile-tab px-6 py-4 text-sm font-medium" data-tab="settings">
+                            Settings
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="p-8">
+                    <!-- Personal Info Tab -->
+                    <div id="personalTab" class="tab-content">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
+                        <div id="profileAlerts" class="mb-6"></div>
+                        
+                        <form id="profileForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="displayName" class="block text-sm font-medium text-gray-700 mb-2">Display Name</label>
+                                    <input type="text" id="displayName" name="displayName" required 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                </div>
+                                
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <input type="email" id="email" name="email" disabled 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500">
+                                    <p class="text-sm text-gray-500 mt-1">Email cannot be changed</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="school" class="block text-sm font-medium text-gray-700 mb-2">School/College</label>
+                                    <input type="text" id="school" name="school" required 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                </div>
+                                
+                                <div>
+                                    <label for="state" class="block text-sm font-medium text-gray-700 mb-2">State</label>
+                                    <select id="state" name="state" required 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                        <option value="">Select your state</option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="bio" class="block text-sm font-medium text-gray-700 mb-2">Bio (Optional)</label>
+                                <textarea id="bio" name="bio" rows="4" placeholder="Tell us about your environmental interests..."
+                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"></textarea>
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="submit" id="updateProfileBtn" 
+                                        class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all">
+                                    Update Profile
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Achievements Tab -->
+                    <div id="achievementsTab" class="tab-content hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Achievements & Badges</h2>
+                        <div id="badgesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Badges will be loaded here -->
+                        </div>
+                        <div id="noBadges" class="text-center py-12 text-gray-500">
+                            <div class="text-6xl mb-4">🏆</div>
+                            <p class="text-lg font-medium">No badges yet!</p>
+                            <p>Complete quests to earn your first achievement badge.</p>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Tab -->
+                    <div id="statisticsTab" class="tab-content hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Your Environmental Impact</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="bg-green-50 p-6 rounded-xl border border-green-200">
+                                <div class="text-2xl mb-2">🌱</div>
+                                <div id="statTreesPlanted" class="text-2xl font-bold text-green-700 mb-1">0</div>
+                                <div class="text-green-600 font-medium">Trees Planted</div>
+                            </div>
+                            
+                            <div class="bg-blue-50 p-6 rounded-xl border border-blue-200">
+                                <div class="text-2xl mb-2">💧</div>
+                                <div id="statWaterSaved" class="text-2xl font-bold text-blue-700 mb-1">0L</div>
+                                <div class="text-blue-600 font-medium">Water Saved</div>
+                            </div>
+                            
+                            <div class="bg-purple-50 p-6 rounded-xl border border-purple-200">
+                                <div class="text-2xl mb-2">♻️</div>
+                                <div id="statWasteRecycled" class="text-2xl font-bold text-purple-700 mb-1">0kg</div>
+                                <div class="text-purple-600 font-medium">Waste Recycled</div>
+                            </div>
+                            
+                            <div class="bg-orange-50 p-6 rounded-xl border border-orange-200">
+                                <div class="text-2xl mb-2">⚡</div>
+                                <div id="statEnergySaved" class="text-2xl font-bold text-orange-700 mb-1">0kWh</div>
+                                <div class="text-orange-600 font-medium">Energy Saved</div>
+                            </div>
+                            
+                            <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+                                <div class="text-2xl mb-2">📅</div>
+                                <div id="statStreak" class="text-2xl font-bold text-yellow-700 mb-1">0</div>
+                                <div class="text-yellow-600 font-medium">Day Streak</div>
+                            </div>
+                            
+                            <div class="bg-pink-50 p-6 rounded-xl border border-pink-200">
+                                <div class="text-2xl mb-2">🏆</div>
+                                <div id="statRank" class="text-2xl font-bold text-pink-700 mb-1">#--</div>
+                                <div class="text-pink-600 font-medium">School Rank</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div id="settingsTab" class="tab-content hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Account Settings</h2>
+                        <div class="space-y-6">
+                            <div class="border border-gray-200 rounded-lg p-6">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Notification Preferences</h3>
+                                <div class="space-y-4">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="emailNotifications" class="rounded border-gray-300 text-primary focus:ring-primary">
+                                        <span class="ml-3">Email notifications for new quests</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="achievementNotifications" class="rounded border-gray-300 text-primary focus:ring-primary">
+                                        <span class="ml-3">Achievement and badge notifications</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="leaderboardNotifications" class="rounded border-gray-300 text-primary focus:ring-primary">
+                                        <span class="ml-3">Leaderboard updates</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-6">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Privacy Settings</h3>
+                                <div class="space-y-4">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="publicProfile" class="rounded border-gray-300 text-primary focus:ring-primary">
+                                        <span class="ml-3">Make my profile public</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="showOnLeaderboard" class="rounded border-gray-300 text-primary focus:ring-primary">
+                                        <span class="ml-3">Show me on leaderboards</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+                                <button id="saveSettingsBtn" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all">
+                                    Save Settings
+                                </button>
+                                <button id="deleteAccountBtn" class="bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-all">
+                                    Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/mobile-menu.js"></script>
+    <script type="module" src="/js/auth/auth-guard.js"></script>
+    <script type="module" src="/js/dashboard/profile.js"></script>
+</body>
+</html>

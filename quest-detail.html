@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest Details - EcoQuest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#22c55e',
+                        'primary-dark': '#16a34a',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex justify-between items-center h-16">
+                <a href="dashboard.html" class="text-xl font-bold text-primary flex items-center">
+                    <span class="text-2xl mr-2">🌱</span>
+                    EcoQuest
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <ul class="hidden md:flex space-x-8 items-center">
+                    <li><a href="dashboard.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Dashboard</a></li>
+                    <li><a href="quests.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Quests</a></li>
+                    <li><a href="#leaderboard" class="text-gray-700 hover:text-primary font-medium transition-colors">Leaderboard</a></li>
+                    <li><a href="profile.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Profile</a></li>
+                    <li><button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all font-medium">Logout</button></li>
+                </ul>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden text-gray-700 p-2" id="mobileMenuBtn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="dashboard.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Dashboard</a>
+                    <a href="quests.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Quests</a>
+                    <a href="#leaderboard" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Leaderboard</a>
+                    <a href="profile.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Profile</a>
+                    <button id="logoutBtnMobile" class="block w-full text-left px-3 py-2 bg-red-500 text-white font-medium rounded-lg mx-3 mb-3 hover:bg-red-600 transition-all">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quest Detail Content -->
+    <div class="pt-16 min-h-screen">
+        <!-- Breadcrumb -->
+        <div class="bg-white border-b border-gray-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="flex items-center space-x-4">
+                        <li><a href="dashboard.html" class="text-gray-500 hover:text-primary">Dashboard</a></li>
+                        <li><span class="text-gray-400">/</span></li>
+                        <li><a href="quests.html" class="text-gray-500 hover:text-primary">Quests</a></li>
+                        <li><span class="text-gray-400">/</span></li>
+                        <li><span id="questBreadcrumb" class="text-gray-900">Loading...</span></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Quest Header -->
+            <div id="questHeader" class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                <div class="text-center">
+                    <div class="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+                    <p class="text-gray-600">Loading quest details...</p>
+                </div>
+            </div>
+
+            <!-- Mission List -->
+            <div id="missionSection" class="bg-white rounded-2xl shadow-sm p-8" style="display: none;">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Quest Missions</h2>
+                <div id="missionList" class="space-y-6">
+                    <!-- Missions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/mobile-menu.js"></script>
+    <script type="module" src="/js/auth/auth-guard.js"></script>
+    <script type="module" src="/js/quests/quest-detail.js"></script>
+</body>
+</html>

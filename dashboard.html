@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EcoQuest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#22c55e',
+                        'primary-dark': '#16a34a',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex justify-between items-center h-16">
+                <a href="dashboard.html" class="text-xl font-bold text-primary flex items-center">
+                    <span class="text-2xl mr-2">🌱</span>
+                    EcoQuest
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <ul class="hidden md:flex space-x-8 items-center">
+                    <li><a href="dashboard.html" class="text-gray-900 font-medium">Dashboard</a></li>
+                    <li><a href="quests.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Quests</a></li>
+                    <li><a href="leaderboard.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Leaderboard</a></li>
+                    <li><a href="profile.html" class="text-gray-700 hover:text-primary font-medium transition-colors">Profile</a></li>
+                    <li><button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all font-medium">Logout</button></li>
+                </ul>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden text-gray-700 p-2" id="mobileMenuBtn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="dashboard.html" class="block px-3 py-2 text-gray-900 font-medium">Dashboard</a>
+                    <a href="quests.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Quests</a>
+                    <a href="leaderboard.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Leaderboard</a>
+                    <a href="profile.html" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Profile</a>
+                    <button id="logoutBtnMobile" class="block w-full text-left px-3 py-2 bg-red-500 text-white font-medium rounded-lg mx-3 mb-3 hover:bg-red-600 transition-all">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard -->
+    <div class="pt-16 min-h-screen">
+        <!-- Dashboard Header -->
+        <div class="bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                    <div>
+                        <h1 id="welcomeMessage" class="text-3xl font-bold text-gray-900 mb-2">
+                            Welcome back, Eco-Warrior!
+                        </h1>
+                        <p id="userInfo" class="text-gray-600 text-lg">
+                            Loading your environmental journey...
+                        </p>
+                        <div id="streakInfo" class="mt-2 flex items-center gap-2">
+                            <span class="text-2xl">🔥</span>
+                            <span id="currentStreak" class="text-sm font-medium text-gray-700">0 day streak</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-start lg:items-end">
+                        <div id="userLevel" class="bg-primary text-white px-4 py-2 rounded-full font-semibold mb-3">
+                            Level 1
+                        </div>
+                        <div id="xpInfo" class="text-sm text-gray-600 mb-2">0 / 100 XP</div>
+                        <div class="w-48 bg-gray-200 rounded-full h-3 overflow-hidden">
+                            <div id="xpProgress" class="bg-accent h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div id="nextLevelInfo" class="text-xs text-gray-500 mt-1">25 XP to Level 2</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center border-l-4 border-primary">
+                    <div id="totalXP" class="text-3xl font-bold text-primary mb-2">0</div>
+                    <div class="text-gray-600 font-medium">Total XP Earned</div>
+                    <div id="xpGainedToday" class="text-sm text-green-600 mt-1">+0 today</div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center border-l-4 border-secondary">
+                    <div id="questsCompleted" class="text-3xl font-bold text-secondary mb-2">0</div>
+                    <div class="text-gray-600 font-medium">Quests Completed</div>
+                    <div id="questsInProgress" class="text-sm text-blue-600 mt-1">0 in progress</div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center border-l-4 border-accent">
+                    <div id="badgesEarned" class="text-3xl font-bold text-accent mb-2">0</div>
+                    <div class="text-gray-600 font-medium">Badges Earned</div>
+                    <div class="text-sm text-yellow-600 mt-1">Keep going!</div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center border-l-4 border-purple-500">
+                    <div id="leaderboardRank" class="text-3xl font-bold text-purple-500 mb-2">--</div>
+                    <div class="text-gray-600 font-medium">School Rank</div>
+                    <div id="rankChange" class="text-sm text-gray-500 mt-1">Not ranked yet</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Quest Previews -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <!-- Quick Actions -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+                        <div class="space-y-3">
+                            <button class="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary hover:bg-opacity-5 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🎯</span>
+                                    <div>
+                                        <div class="font-medium">Start New Quest</div>
+                                        <div class="text-sm text-gray-600">Explore available missions</div>
+                                    </div>
+                                </div>
+                            </button>
+                            
+                            <button class="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary hover:bg-opacity-5 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">📊</span>
+                                    <div>
+                                        <div class="font-medium">View Progress</div>
+                                        <div class="text-sm text-gray-600">Check your achievements</div>
+                                    </div>
+                                </div>
+                            </button>
+                            
+                            <button class="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-primary hover:bg-primary hover:bg-opacity-5 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🏆</span>
+                                    <div>
+                                        <div class="font-medium">Leaderboard</div>
+                                        <div class="text-sm text-gray-600">See school rankings</div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quest Previews -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-900">Available Quests</h2>
+                            <a href="#" class="text-primary font-medium hover:text-primary-dark">View All</a>
+                        </div>
+                        
+                        <div id="questPreviewContainer" class="space-y-4">
+                            <!-- Quest previews will be loaded here -->
+                        </div>
+                        
+                        <div id="loadingQuests" class="text-center py-8 text-gray-500">
+                            <div class="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+                            <p>Loading available quests...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h2 class="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+                <div id="recentActivity" class="space-y-4">
+                    <!-- Recent activities will be loaded here -->
+                </div>
+                <div id="noActivity" class="text-center py-8 text-gray-500">
+                    <div class="text-4xl mb-4">🌱</div>
+                    <p class="font-medium">No recent activity</p>
+                    <p class="text-sm">Start your first quest to see your progress here!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add this script right after your quick actions div -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Quick fix for dashboard buttons
+    const buttons = document.querySelectorAll('.bg-white button');
+    
+    buttons.forEach(button => {
+        const buttonText = button.textContent || '';
+        
+        button.addEventListener('click', function() {
+            if (buttonText.includes('Start New Quest')) {
+                window.location.href = 'quests.html';
+            } else if (buttonText.includes('View Progress')) {
+                window.location.href = 'profile.html';
+            } else if (buttonText.includes('Leaderboard')) {
+                window.location.href = 'leaderboard.html';
+            }
+        });
+    });
+});
+</script>
+
+
+    <script src="js/mobile-menu.js"></script>
+    <script type="module" src="/js/auth/auth-guard.js"></script>
+    <script type="module" src="/js/dashboard/dashboard.js"></script>
+</body>
+</html>

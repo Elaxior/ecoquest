@@ -1,0 +1,276 @@
+{
+  "quests": [
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "description": "Welcome to EcoQuest! Complete your first environmental actions and learn how the platform works.",
+      "category": "beginner",
+      "difficulty": "easy",
+      "xpReward": 100,
+      "estimatedTime": "30 minutes",
+      "prerequisites": [],
+      "missions": [
+        {
+          "id": "welcome-mission",
+          "title": "Welcome to EcoQuest",
+          "description": "Read about environmental protection and take the welcome quiz",
+          "type": "quiz",
+          "xpReward": 20,
+          "content": {
+            "text": "Environmental protection is crucial for our planet's future. Every small action counts!",
+            "quiz": [
+              {
+                "question": "What is the main goal of environmental protection?",
+                "options": [
+                  "To preserve nature for future generations",
+                  "To make money",
+                  "To build more cities",
+                  "To use more resources"
+                ],
+                "correct": 0
+              }
+            ]
+          }
+        },
+        {
+          "id": "profile-complete",
+          "title": "Complete Your Eco Profile",
+          "description": "Make sure your profile is fully set up with your interests",
+          "type": "profile_check",
+          "xpReward": 30,
+          "autoComplete": true
+        },
+        {
+          "id": "first-action",
+          "title": "Take Your First Eco Action",
+          "description": "Choose one eco-friendly action to do today (turn off unused lights, use a reusable water bottle, etc.)",
+          "type": "action",
+          "xpReward": 50,
+          "content": {
+            "actions": [
+              "Turn off lights when leaving a room",
+              "Use a reusable water bottle",
+              "Recycle paper or plastic",
+              "Take a shorter shower",
+              "Walk or bike instead of driving"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "water-conservation",
+      "title": "Water Conservation Champion",
+      "description": "Learn about water conservation and implement water-saving techniques in your daily life.",
+      "category": "water",
+      "difficulty": "medium",
+      "xpReward": 200,
+      "estimatedTime": "1 week",
+      "prerequisites": ["getting-started"],
+      "missions": [
+        {
+          "id": "water-quiz",
+          "title": "Water Facts Quiz",
+          "description": "Test your knowledge about water conservation",
+          "type": "quiz",
+          "xpReward": 40,
+          "content": {
+            "text": "Water is precious! Did you know that only 3% of Earth's water is fresh water?",
+            "quiz": [
+              {
+                "question": "How much water does the average person use per day?",
+                "options": ["50 liters", "100 liters", "150 liters", "200+ liters"],
+                "correct": 3
+              },
+              {
+                "question": "Which uses more water: a 5-minute shower or filling a bathtub?",
+                "options": ["5-minute shower", "Filling a bathtub", "They use the same", "Depends on the shower head"],
+                "correct": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "water-audit",
+          "title": "Home Water Audit",
+          "description": "Check for water leaks and wastage in your home",
+          "type": "checklist",
+          "xpReward": 60,
+          "content": {
+            "checklist": [
+              "Check all faucets for leaks",
+              "Check toilet for running water",
+              "Time your shower (aim for under 5 minutes)",
+              "Check outdoor hoses and sprinklers",
+              "Look for water stains that indicate leaks"
+            ]
+          }
+        },
+        {
+          "id": "water-action",
+          "title": "Water Saving Implementation",
+          "description": "Implement at least 3 water-saving measures",
+          "type": "action",
+          "xpReward": 100,
+          "content": {
+            "actions": [
+              "Fix any leaks found",
+              "Install water-saving shower head",
+              "Use a bucket to collect shower water while it warms up",
+              "Turn off tap while brushing teeth",
+              "Only run dishwasher/washing machine with full loads",
+              "Collect rainwater for plants"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "waste-management",
+      "title": "Waste Warrior",
+      "description": "Master the art of waste reduction, recycling, and proper disposal.",
+      "category": "waste",
+      "difficulty": "medium",
+      "xpReward": 250,
+      "estimatedTime": "1 week",
+      "prerequisites": ["getting-started"],
+      "missions": [
+        {
+          "id": "waste-audit",
+          "title": "Personal Waste Audit",
+          "description": "Track your waste production for 3 days",
+          "type": "tracking",
+          "xpReward": 50,
+          "content": {
+            "instructions": "For 3 days, note down all waste you produce. Categorize as: recyclable, compostable, or landfill.",
+            "categories": ["plastic", "paper", "organic", "electronic", "other"]
+          }
+        },
+        {
+          "id": "recycling-setup",
+          "title": "Set Up Recycling System",
+          "description": "Create a proper recycling system in your space",
+          "type": "action",
+          "xpReward": 80,
+          "content": {
+            "requirements": [
+              "Set up separate bins for different waste types",
+              "Learn local recycling rules",
+              "Create compost bin for organic waste"
+            ]
+          }
+        },
+        {
+          "id": "waste-reduction",
+          "title": "Reduce and Reuse Challenge",
+          "description": "Implement waste reduction strategies",
+          "type": "challenge",
+          "xpReward": 120,
+          "duration": "7 days",
+          "content": {
+            "challenge": "Reduce your daily waste by 50% for one week using reuse and reduction strategies"
+          }
+        }
+      ]
+    },
+    {
+      "id": "energy-saver",
+      "title": "Energy Efficiency Expert",
+      "description": "Become an expert in energy conservation and renewable energy solutions.",
+      "category": "energy",
+      "difficulty": "medium",
+      "xpReward": 300,
+      "estimatedTime": "2 weeks",
+      "prerequisites": ["getting-started"],
+      "missions": [
+        {
+          "id": "energy-audit",
+          "title": "Home Energy Audit",
+          "description": "Assess your home's energy usage and identify areas for improvement",
+          "type": "audit",
+          "xpReward": 70,
+          "content": {
+            "checklist": [
+              "Check for air leaks around windows and doors",
+              "Assess lighting efficiency (LED vs incandescent)",
+              "Review appliance energy ratings",
+              "Check insulation in walls and attic",
+              "Evaluate heating/cooling efficiency"
+            ]
+          }
+        },
+        {
+          "id": "energy-actions",
+          "title": "Energy Saving Implementation",
+          "description": "Implement energy-saving measures in your daily life",
+          "type": "action",
+          "xpReward": 100,
+          "content": {
+            "actions": [
+              "Switch to LED bulbs",
+              "Unplug electronics when not in use",
+              "Use natural light when possible",
+              "Adjust thermostat by 2°C",
+              "Use energy-efficient appliances",
+              "Seal air leaks with weatherstripping"
+            ]
+          }
+        },
+        {
+          "id": "renewable-research",
+          "title": "Renewable Energy Research",
+          "description": "Research renewable energy options for your area",
+          "type": "research",
+          "xpReward": 130,
+          "content": {
+            "task": "Research and create a report on renewable energy options (solar, wind, hydroelectric) available in your region"
+          }
+        }
+      ]
+    }
+  ],
+  "badges": [
+    {
+      "id": "first-steps",
+      "name": "First Steps",
+      "description": "Complete your first quest",
+      "emoji": "🌱",
+      "requirement": "complete_quest:getting-started"
+    },
+    {
+      "id": "water-saver",
+      "name": "Water Saver",
+      "description": "Complete the Water Conservation quest",
+      "emoji": "💧",
+      "requirement": "complete_quest:water-conservation"
+    },
+    {
+      "id": "waste-warrior",
+      "name": "Waste Warrior",
+      "description": "Complete the Waste Management quest",
+      "emoji": "♻️",
+      "requirement": "complete_quest:waste-management"
+    },
+    {
+      "id": "energy-expert",
+      "name": "Energy Expert",
+      "description": "Complete the Energy Efficiency quest",
+      "emoji": "⚡",
+      "requirement": "complete_quest:energy-saver"
+    },
+    {
+      "id": "eco-champion",
+      "name": "Eco Champion",
+      "description": "Reach level 5",
+      "emoji": "🏆",
+      "requirement": "reach_level:5"
+    },
+    {
+      "id": "quest-master",
+      "name": "Quest Master",
+      "description": "Complete 3 quests",
+      "emoji": "🎯",
+      "requirement": "complete_quests:3"
+    }
+  ]
+}

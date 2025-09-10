@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoQuest - Gamified Environmental Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#22c55e',
+                        'primary-dark': '#16a34a',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex justify-between items-center h-16">
+                <a href="index.html" class="text-xl font-bold text-primary flex items-center">
+                    <span class="text-2xl mr-2">🌱</span>
+                    EcoQuest
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <ul class="hidden md:flex space-x-8 items-center">
+                    <li><a href="#features" class="text-gray-700 hover:text-primary font-medium transition-colors">Features</a></li>
+                    <li><a href="#about" class="text-gray-700 hover:text-primary font-medium transition-colors">About</a></li>
+                    <li><a href="login.html" class="border-2 border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-all font-medium">Login</a></li>
+                    <li><a href="register.html" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-all font-medium">Join Now</a></li>
+                </ul>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden text-gray-700 p-2" id="mobileMenuBtn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 bg-white">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="#features" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">Features</a>
+                    <a href="#about" class="block px-3 py-2 text-gray-700 hover:text-primary font-medium">About</a>
+                    <a href="login.html" class="block px-3 py-2 text-primary font-medium border border-primary rounded-lg text-center mx-3 mt-3 hover:bg-primary hover:text-white transition-all">Login</a>
+                    <a href="register.html" class="block px-3 py-2 bg-primary text-white font-medium rounded-lg text-center mx-3 mb-3 hover:bg-primary-dark transition-all">Join Now</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary to-secondary text-white pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                Transform Learning Into<br>Environmental Action
+            </h1>
+            <p class="text-lg md:text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+                Join thousands of students across India in gamified environmental education. Complete quests, earn XP, unlock badges, and become an Eco-Warrior!
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="register.html" class="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all text-lg">
+                    Start Your Journey
+                </a>
+                <a href="#features" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-all text-lg">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+                Why Choose EcoQuest?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-50 p-8 rounded-xl text-center hover:transform hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl">
+                        🎮
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Gamified Learning</h3>
+                    <p class="text-gray-600">Earn XP, level up, and unlock digital badges as you complete environmental missions and challenges.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-gray-50 p-8 rounded-xl text-center hover:transform hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl">
+                        🌍
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Regional Quests</h3>
+                    <p class="text-gray-600">Tackle location-specific environmental challenges relevant to your state and local ecosystem.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-gray-50 p-8 rounded-xl text-center hover:transform hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl">
+                        🤖
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">AI-Powered Assistant</h3>
+                    <p class="text-gray-600">Get instant help from Eco-Guru, your personal AI chatbot for environmental questions.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-gray-50 p-8 rounded-xl text-center hover:transform hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl">
+                        📱
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Real-World Tasks</h3>
+                    <p class="text-gray-600">Submit photos of your environmental actions and get verified by our smart AI system.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="bg-gray-50 p-8 rounded-xl text-center hover:transform hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl">
+                        🏆
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Leaderboards</h3>
+                    <p class="text-gray-600">Compete with students across India and see your school climb the national rankings.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="bg-gray-50 p-8 rounded-xl text-center hover:transform hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl">
+                        🤝
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">School Guilds</h3>
+                    <p class="text-gray-600">Join your school's guild and work together on collaborative environmental projects.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/mobile-menu.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
