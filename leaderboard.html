@@ -6,6 +6,16 @@
     <title>Leaderboard - EcoQuest</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     <!-- 🆕 ADD ONLY THESE PWA-SPECIFIC LINES -->
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#22c55e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="EcoQuest">
+    <link rel="apple-touch-icon" href="/pwa-assets/icon-192.png">
+    <meta name="format-detection" content="telephone=no">
     <script>
         tailwind.config = {
             theme: {
@@ -159,5 +169,7 @@
     <script src="/js/mobile-menu.js"></script>
     <script type="module" src="/js/auth/auth-guard.js"></script>
     <script type="module" src="/js/gamification/leaderboard.js"></script>
+     <!-- 🆕 ADD THIS PWA MANAGER SCRIPT -->
+    <script type="module" src="/js/pwa/pwa-manager.js"></script>
 </body>
 </html>

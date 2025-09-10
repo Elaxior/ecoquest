@@ -6,9 +6,9 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "api-here",
-  authDomain: "heretoo",
-  projectId: "heretoo",
+  apiKey: "AIzaSyDKORSxuutBkLR98kvYNE5jJa0TlGFGSqo",
+  authDomain: "ecoquest-115da.firebaseapp.com",
+  projectId: "ecoquest-115da",
   storageBucket: "ecoquest-115da.firebasestorage.app",
   messagingSenderId: "862557922154",
   appId: "1:862557922154:web:df6279c54e2735a4f6fb13",

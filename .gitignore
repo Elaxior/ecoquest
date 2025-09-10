@@ -1,3 +1,6 @@
+js/config/gemini-config.js
+js/config/firebase-config.js
+
 # API Keys and sensitive config
 .env
 .env.local
