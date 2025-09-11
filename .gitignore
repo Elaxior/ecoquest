@@ -3,8 +3,7 @@
 .env.local
 
 # Remove these lines - we want to track the files, just not the secrets
-# js/config/gemini-config.js 
-# js/config/firebase-config.js
+# js/config/
 
 # Node modules (if any)
 node_modules/

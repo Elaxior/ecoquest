@@ -4,10 +4,7 @@
   },
   "dependencies": {
     "dotenv": "^17.2.2"
-  },
-  "scripts": {
-  "build": "node create-config.js"
-}
+  }
 }
 
 
