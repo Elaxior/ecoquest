@@ -5,11 +5,26 @@ import { createQuestPrompt, createQuizPrompt, createMissionPrompt } from './prom
 export class GeminiClient {
     constructor() {
         this.apiKey = GEMINI_CONFIG.apiKey;
-        this.apiUrl = GEMINI_CONFIG.apiUrl;
+        // ✅ UPDATED: Use the base URL that works with current models
+        this.apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
+    }
+    
+    // ✅ UPDATED: Get the correct API endpoint for each model
+    getModelEndpoint(model = 'gemini-2.0-flash') {
+        // Map old model names to new ones
+        const modelMapping = {
+            'gemini-1.5-flash': 'gemini-2.0-flash',
+            'gemini-1.5-pro': 'gemini-2.5-pro',
+            'gemini-pro': 'gemini-2.0-flash',
+            'gemini-flash': 'gemini-2.0-flash'
+        };
+        
+        const actualModel = modelMapping[model] || model;
+        return `${this.apiUrl}/${actualModel}:generateContent`;
     }
     
     // Generate content using Gemini API
-    async generateContent(prompt, model = 'gemini-1.5-flash') {
+    async generateContent(prompt, model = 'gemini-2.0-flash') {
         try {
             const requestBody = {
                 contents: [{
@@ -20,8 +35,13 @@ export class GeminiClient {
             };
             
             console.log('Sending request to Gemini API...');
+            console.log('Using model:', model);
             
-            const response = await fetch(this.apiUrl + '?key=' + this.apiKey, {
+            // ✅ UPDATED: Use the new endpoint method
+            const endpoint = this.getModelEndpoint(model);
+            console.log('API Endpoint:', endpoint);
+            
+            const response = await fetch(`${endpoint}?key=${this.apiKey}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,9 +50,19 @@ export class GeminiClient {
             });
             
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Gemini API Error Response:', errorText);
-                throw new Error('Gemini API error: ' + response.status + ' ' + response.statusText);
+                const errorData = await response.json().catch(() => null);
+                console.error('Gemini API Error Response:', errorData);
+                
+                // ✅ IMPROVED: Better error handling for common issues
+                if (response.status === 404) {
+                    throw new Error(`Model "${model}" not found. Please check if the model name is correct and supported.`);
+                } else if (response.status === 403) {
+                    throw new Error('Gemini API access denied. Please check your API key and permissions.');
+                } else if (response.status === 429) {
+                    throw new Error('Gemini API rate limit exceeded. Please try again later.');
+                }
+                
+                throw new Error(`Gemini API error: ${response.status} - ${errorData?.error?.message || response.statusText}`);
             }
             
             const data = await response.json();
@@ -57,12 +87,15 @@ export class GeminiClient {
         } catch (error) {
             console.error('Error in generateContent:', error);
             
+            // ✅ IMPROVED: More specific error messages
             if (error.message.includes('API key')) {
                 throw new Error('Invalid or missing Gemini API key. Please check your configuration.');
-            } else if (error.message.includes('quota')) {
-                throw new Error('Gemini API quota exceeded. Please try again later.');
+            } else if (error.message.includes('quota') || error.message.includes('limit')) {
+                throw new Error('Gemini API quota exceeded. Please try again later or check your billing.');
             } else if (error.message.includes('safety')) {
                 throw new Error('Content was blocked by safety filters. Try rephrasing your prompt.');
+            } else if (error.message.includes('not found') || error.message.includes('404')) {
+                throw new Error('Gemini model not available. The API has been updated to use newer model names.');
             }
             
             throw error;
@@ -75,7 +108,7 @@ export class GeminiClient {
             let cleanText = text.trim();
             
             // Remove markdown code blocks if present (FIXED - proper regex)
-            cleanText = cleanText.replace(/^```[a-z]*\n?/gi, '');
+            cleanText = cleanText.replace(/^```(?:json)?\s*/g, '');
             cleanText = cleanText.replace(/\n?```\s*$/g, '');
             cleanText = cleanText.trim();
             
@@ -92,7 +125,7 @@ export class GeminiClient {
         } catch (error) {
             console.error('Error parsing Gemini response:', error);
             console.log('Raw response text:', text);
-            console.log('Cleaned text attempt:', text.trim().replace(/^```[a-z]*\n?/gi, '').replace(/\n?```\s*$/g, '').trim());
+            console.log('Cleaned text attempt:', text.trim().replace(/^```(?:json)?\s*/g, '').replace(/\n?```\s*$/g, '').trim());
             
             if (text.indexOf('```') !== -1) {
                 console.warn('Response contains markdown formatting - this may cause parsing issues');
@@ -106,29 +139,32 @@ export class GeminiClient {
         }
     }
     
-    // Generate quest content
-    async generateQuest(params) {
-        try {
-            const prompt = createQuestPrompt(params);
-            const response = await this.generateContent(prompt, GEMINI_MODELS.quest);
-            
-            if (!response.quests || !Array.isArray(response.quests) || response.quests.length === 0) {
-                throw new Error('No quests found in AI response');
-            }
-            
-            return response.quests[0];
-        } catch (error) {
-            console.error('Error generating quest:', error);
-            throw error;
+    // ✅ FIXED: Generate quest content with new models
+async generateQuest(params) {
+    try {
+        const prompt = createQuestPrompt(params);
+        // Use the newer, faster model for quest generation
+        const response = await this.generateContent(prompt, 'gemini-2.0-flash');
+        
+        if (!response.quests || !Array.isArray(response.quests) || response.quests.length === 0) {
+            throw new Error('No quests found in AI response');
         }
+        
+        // ✅ FIX: Return the first quest from the array, not the entire array
+        return response.quests[0];
+    } catch (error) {
+        console.error('Error generating quest:', error);
+        throw error;
     }
+}
     
-    // Generate multiple quests
+    // ✅ UPDATED: Generate multiple quests with optimized model
     async generateQuests(params) {
         try {
             const questParams = { ...params, questCount: params.count || 3 };
             const prompt = createQuestPrompt(questParams);
-            const response = await this.generateContent(prompt, GEMINI_MODELS.quest);
+            // Use the more capable model for multiple quests
+            const response = await this.generateContent(prompt, 'gemini-2.5-flash');
             
             if (!response.quests || !Array.isArray(response.quests)) {
                 throw new Error('Invalid quests array in AI response');
@@ -141,11 +177,11 @@ export class GeminiClient {
         }
     }
     
-    // Generate quiz questions
+    // ✅ UPDATED: Generate quiz questions with appropriate model
     async generateQuiz(params) {
         try {
             const prompt = createQuizPrompt(params);
-            const response = await this.generateContent(prompt, GEMINI_MODELS.quiz);
+            const response = await this.generateContent(prompt, 'gemini-2.0-flash');
             
             if (!response.questions || !Array.isArray(response.questions)) {
                 throw new Error('Invalid questions array in AI response');
@@ -158,11 +194,11 @@ export class GeminiClient {
         }
     }
     
-    // Generate single mission
+    // ✅ UPDATED: Generate single mission with latest model
     async generateMission(params) {
         try {
             const prompt = createMissionPrompt(params);
-            const response = await this.generateContent(prompt, GEMINI_MODELS.content);
+            const response = await this.generateContent(prompt, 'gemini-2.0-flash');
             
             if (!response.mission) {
                 throw new Error('No mission found in AI response');
@@ -186,7 +222,8 @@ export class GeminiClient {
                 const quests = await this.generateQuests(stateParams);
                 results[state] = { success: true, quests };
                 
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                // ✅ IMPROVED: Slightly longer delay to respect rate limits
+                await new Promise(resolve => setTimeout(resolve, 3000));
             } catch (error) {
                 console.error('Error generating content for ' + state + ':', error);
                 results[state] = { success: false, error: error.message };
@@ -196,11 +233,11 @@ export class GeminiClient {
         return results;
     }
     
-    // Test API connection
+    // ✅ UPDATED: Test API connection with current model
     async testConnection() {
         try {
-            const testPrompt = 'Generate a simple JSON response: {"message": "API connection successful", "timestamp": "' + new Date().toISOString() + '"}';
-            const response = await this.generateContent(testPrompt);
+            const testPrompt = 'Generate a simple JSON response: {"message": "API connection successful", "timestamp": "' + new Date().toISOString() + '", "model": "gemini-2.0-flash"}';
+            const response = await this.generateContent(testPrompt, 'gemini-2.0-flash');
             return { success: true, response };
         } catch (error) {
             return { success: false, error: error.message };
@@ -215,13 +252,18 @@ export class GeminiClient {
         return true;
     }
     
-    // Get API usage info
+    // ✅ UPDATED: Get API usage info with current models
     async getApiInfo() {
         try {
             this.validateApiKey();
             return {
                 apiKey: this.apiKey.substring(0, 10) + '...',
-                apiUrl: this.apiUrl,
+                baseUrl: this.apiUrl,
+                supportedModels: [
+                    'gemini-2.0-flash',
+                    'gemini-2.5-flash', 
+                    'gemini-2.5-pro'
+                ],
                 configured: true
             };
         } catch (error) {
@@ -230,6 +272,27 @@ export class GeminiClient {
                 error: error.message
             };
         }
+    }
+    
+    // ✅ NEW: Get available models (for debugging)
+    getSupportedModels() {
+        return [
+            {
+                name: 'gemini-2.0-flash',
+                description: 'Latest fast model, best for quick generation',
+                recommended: true
+            },
+            {
+                name: 'gemini-2.5-flash', 
+                description: 'Stable fast model, good for multiple content',
+                recommended: false
+            },
+            {
+                name: 'gemini-2.5-pro',
+                description: 'Most capable model, slower but higher quality',
+                recommended: false
+            }
+        ];
     }
 }
 
@@ -282,7 +345,7 @@ export function sanitizeGeneratedContent(content) {
     return content;
 }
 
-// Test function for debugging
+// ✅ UPDATED: Test function with current models
 export async function testGeminiConnection() {
     try {
         console.log('Testing Gemini API connection...');
@@ -294,6 +357,8 @@ export async function testGeminiConnection() {
         if (!apiInfo.configured) {
             throw new Error(apiInfo.error);
         }
+        
+        console.log('Supported models:', client.getSupportedModels());
         
         const testResult = await client.testConnection();
         console.log('Connection test result:', testResult);
