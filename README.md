@@ -244,6 +244,7 @@ This project is open source and available under the MIT License.
 **Project Created By:**
 - **Vivek** - Co-founder
 - **Rahul Kumar Gupta** - Co-founder
+- **Tarun Bhardwaj** - Co-founder
 
 ---
 
